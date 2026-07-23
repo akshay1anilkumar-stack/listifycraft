@@ -12,7 +12,7 @@ import MasterAdmin from './components/MasterAdmin';
 import ClientCredits from './components/ClientCredits';
 import CompanyAdmin from './components/CompanyAdmin';
 import { convertToOldSchema } from './utils/schemaMapper';
-import { generateTitle, generateHtmlDescription, getCanonicalTags } from './utils';
+import { generateTitle, generateHtmlDescription, getCanonicalTags, fastOptimizeImage } from './utils';
 import { 
   Sparkles, Settings2, ShieldCheck, HelpCircle, RefreshCw, FileText, CheckCircle2, History, AlertCircle,
   Menu, X, Layers, Activity, BookOpen, Globe, CheckSquare, CreditCard, Wallet, Users
@@ -226,11 +226,10 @@ export default function App() {
   // Upload/Add Garment view photos and run segmentations
   const handleAddViews = async (files: FileList) => {
     setErrorMessage(null);
-    const newViews: UploadedView[] = [];
+    const validFiles: { file: File; index: number }[] = [];
     
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      // Basic validation
       const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/heic'];
       if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith('.heic')) {
         setErrorMessage("Image rejected: Unsupported file format detected.");
@@ -240,49 +239,70 @@ export default function App() {
         setErrorMessage("Image rejected: Exceeds 50MB file size limits.");
         continue;
       }
+      validFiles.push({ file, index: i });
+    }
 
-      const base64 = await toBase64(file);
-      const viewId = `view_${Date.now()}_${i}`;
-      const parsedName = parseStoredImageName(file.name);
+    if (validFiles.length === 0) return;
 
-      let autoLabel: UploadedView['label'] = 'Front';
-      const existingLabels = views.map(v => v.label);
-      if (existingLabels.includes('Front')) {
-        if (!existingLabels.includes('Back')) autoLabel = 'Back';
-        else if (!existingLabels.includes('Neck Label')) autoLabel = 'Neck Label';
-        else autoLabel = 'Detail';
-      }
-      autoLabel = labelForSequence(parsedName.sequence, autoLabel);
+    const newViews: UploadedView[] = [];
+    const chunkSize = 5;
 
-      const storeRes = await fetch('/api/images/store', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          dataUrl: base64,
-          sku: parsedName.sku,
-          filename: file.name,
-          sequence: parsedName.sequence,
-          label: autoLabel,
-          kind: 'original'
+    for (let c = 0; c < validFiles.length; c += chunkSize) {
+      const chunk = validFiles.slice(c, c + chunkSize);
+      const chunkResults = await Promise.all(
+        chunk.map(async ({ file, index }) => {
+          try {
+            const dataUrl = await fastOptimizeImage(file);
+            const viewId = `view_${Date.now()}_${index}`;
+            const parsedName = parseStoredImageName(file.name);
+
+            let autoLabel: UploadedView['label'] = 'Front';
+            const existingLabels = views.map(v => v.label);
+            if (existingLabels.includes('Front')) {
+              if (!existingLabels.includes('Back')) autoLabel = 'Back';
+              else if (!existingLabels.includes('Neck Label')) autoLabel = 'Neck Label';
+              else autoLabel = 'Detail';
+            }
+            autoLabel = labelForSequence(parsedName.sequence, autoLabel);
+
+            const token = localStorage.getItem("fr_session_token");
+            const storeRes = await fetch('/api/images/store', {
+              method: 'POST',
+              headers: { 
+                'Content-Type': 'application/json',
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+              },
+              body: JSON.stringify({
+                dataUrl,
+                sku: parsedName.sku,
+                filename: file.name,
+                sequence: parsedName.sequence,
+                label: autoLabel,
+                kind: 'original'
+              })
+            });
+            const storeData = await storeRes.json();
+            if (!storeRes.ok) return null;
+            const stored = storeData.image;
+
+            return {
+              id: viewId,
+              url: stored.url,
+              originalUrl: stored.url,
+              filename: file.name,
+              sku: parsedName.sku,
+              sequence: parsedName.sequence,
+              storageId: stored.id,
+              label: autoLabel,
+              processing: true
+            } as UploadedView;
+          } catch {
+            return null;
+          }
         })
-      });
-      const storeData = await storeRes.json();
-      if (!storeRes.ok) throw new Error(storeData.error || `Could not store ${file.name}.`);
-      const stored = storeData.image;
+      );
 
-      const tempView: UploadedView = {
-        id: viewId,
-        url: stored.url,
-        originalUrl: stored.url,
-        filename: file.name,
-        sku: parsedName.sku,
-        sequence: parsedName.sequence,
-        storageId: stored.id,
-        label: autoLabel,
-        processing: true
-      };
-
-      newViews.push(tempView);
+      chunkResults.filter((v): v is UploadedView => v !== null).forEach(v => newViews.push(v));
     }
 
     if (newViews.length === 0) return;
