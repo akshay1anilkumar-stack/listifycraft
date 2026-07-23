@@ -176,24 +176,24 @@ export default function AdminConfig({
   const handleAddMapping = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newGarment || !newProdType) return;
-    const exists = mappings.some(m => m.garmentPlural.toLowerCase() === newGarment.trim().toLowerCase());
+    const exists = (mappings || []).some(m => m.garmentPlural.toLowerCase() === newGarment.trim().toLowerCase());
     if (exists) {
       alert("Garment plural category already exists.");
       return;
     }
-    const updated = [...mappings, { garmentPlural: newGarment.trim(), productType: newProdType.trim() }];
+    const updated = [...(mappings || []), { garmentPlural: newGarment.trim(), productType: newProdType.trim() }];
     onUpdateMappings(updated);
     setNewGarment('');
     setNewProdType('');
   };
 
   const handleDeleteMapping = (garment: string) => {
-    const updated = mappings.filter(m => m.garmentPlural !== garment);
+    const updated = (mappings || []).filter(m => m.garmentPlural !== garment);
     onUpdateMappings(updated);
   };
 
   const toggleMigrationMode = () => {
-    if (!config.vintageEraMigrationEnabled) {
+    if (!config?.vintageEraMigrationEnabled) {
       setShowMigrationModal(true);
     } else {
       onUpdateConfig({ vintageEraMigrationEnabled: false });
@@ -205,13 +205,13 @@ export default function AdminConfig({
     setShowMigrationModal(false);
   };
 
-  const filteredLogs = auditLogs.filter(log => {
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      log.operator.toLowerCase().includes(searchLower) ||
-      (log.payload?.title || '').toLowerCase().includes(searchLower) ||
-      (log.shopifyResponse?.productId || '').toLowerCase().includes(searchLower)
-    );
+  const filteredLogs = (auditLogs || []).filter(log => {
+    if (!log) return false;
+    const searchLower = (searchTerm || '').toLowerCase();
+    const op = String(log.operator || log.username || '').toLowerCase();
+    const title = String(log.payload?.title || '').toLowerCase();
+    const prodId = String(log.shopifyResponse?.productId || '').toLowerCase();
+    return op.includes(searchLower) || title.includes(searchLower) || prodId.includes(searchLower);
   });
 
   return (

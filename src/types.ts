@@ -171,6 +171,7 @@ export interface AuditRecord {
   id: string;
   timestamp: string;
   operator: string;
+  username?: string;
   images: string[];
   payload: any;
   shopifyResponse: any;

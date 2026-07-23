@@ -3,7 +3,9 @@ import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 const nativeFetch = window.fetch.bind(window);
-const API_HOST = '';
+const API_HOST = window.location.hostname.includes('web.app') || window.location.hostname.includes('firebaseapp.com')
+  ? 'https://listifycraft.onrender.com'
+  : '';
 
 window.fetch = ((input: RequestInfo | URL, init: RequestInit = {}) => {
   let url = typeof input === 'string' ? input : input instanceof URL ? input.toString() : (input as Request).url;

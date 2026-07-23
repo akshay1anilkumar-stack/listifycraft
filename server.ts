@@ -184,6 +184,8 @@ function normalizeDB(parsed: any): LocalDB {
   db.config.apiVersion ||= process.env.SHOPIFY_API_VERSION || "2026-07";
   db.config.inventoryLocationId ??= process.env.SHOPIFY_INVENTORY_LOCATION_ID || "";
   db.config.defaultVendor ||= STORE_VENDOR;
+  if (!db.config.shopName && process.env.SHOPIFY_SHOP_DOMAIN) db.config.shopName = process.env.SHOPIFY_SHOP_DOMAIN;
+  if (!db.config.accessToken && process.env.SHOPIFY_ADMIN_ACCESS_TOKEN) db.config.accessToken = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
   db.config.geminiModel ||= "gemini-3.6-flash";
   db.config.costListingCredit ??= 1; db.config.costModelCredit ??= Number(process.env.AI_MODEL_CREDIT_COST || 1);
   if (process.env.SHOPIFY_ADMIN_ACCESS_TOKEN) db.config.accessToken = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
