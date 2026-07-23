@@ -1,0 +1,106 @@
+{
+  "mappings": [
+    {
+      "garmentPlural": "T-Shirts",
+      "productType": "Migration_T-Shirts"
+    },
+    {
+      "garmentPlural": "Jackets",
+      "productType": "Migration_Jackets"
+    },
+    {
+      "garmentPlural": "Jerseys",
+      "productType": "Migration_Jerseys"
+    },
+    {
+      "garmentPlural": "Shorts",
+      "productType": "Migration_Shorts"
+    },
+    {
+      "garmentPlural": "Pants",
+      "productType": "Migration_Pants"
+    },
+    {
+      "garmentPlural": "Jeans",
+      "productType": "Migration_Jeans"
+    },
+    {
+      "garmentPlural": "Shirts",
+      "productType": "Migration_Shirts"
+    },
+    {
+      "garmentPlural": "Knitwear & Sweaters",
+      "productType": "Migration_Knitwear & Sweaters"
+    },
+    {
+      "garmentPlural": "Hoodies & Sweatshirts",
+      "productType": "Migration_Hoodies & Sweatshirts"
+    },
+    {
+      "garmentPlural": "Sweatshirts",
+      "productType": "Migration_Sweatshirts"
+    },
+    {
+      "garmentPlural": "Dresses",
+      "productType": "Migration_Dresses"
+    },
+    {
+      "garmentPlural": "Skirts",
+      "productType": "Migration_Skirts"
+    },
+    {
+      "garmentPlural": "Blouses & Tops",
+      "productType": "Migration_Blouses & Tops"
+    },
+    {
+      "garmentPlural": "Jumpsuits & Rompers",
+      "productType": "Migration_Jumpsuits & Rompers"
+    },
+    {
+      "garmentPlural": "Vests",
+      "productType": "Migration_Vests"
+    },
+    {
+      "garmentPlural": "Accessories",
+      "productType": "Migration_Accessories"
+    },
+    {
+      "garmentPlural": "Caps",
+      "productType": "Migration_Caps"
+    },
+    {
+      "garmentPlural": "Hats",
+      "productType": "Migration_Hats"
+    }
+  ],
+  "config": {
+    "titleMaxLength": 140,
+    "vintageEraMigrationEnabled": false,
+    "colorTolerance": 2,
+    "shopName": "",
+    "accessToken": "",
+    "ebayConnected": false,
+    "ebayAccount": null,
+    "ebayAutomationEnabled": false,
+    "geminiModel": "gemini-3.6-flash",
+    "costListingCredit": 1,
+    "costModelCredit": 0,
+    "apiVersion": "2026-07",
+    "inventoryLocationId": "",
+    "defaultVendor": "Fashion Rerun Vintage"
+  },
+  "auditLogs": [],
+  "shopifyProducts": [],
+  "batches": [],
+  "users": [
+    {
+      "username": "master_admin",
+      "fullName": "Master Administrator",
+      "password": "",
+      "role": "Master Admin",
+      "clientId": "master-workspace-id"
+    }
+  ],
+  "clients": [],
+  "creditTransactions": []
+}

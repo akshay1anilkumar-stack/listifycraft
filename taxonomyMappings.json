@@ -1,0 +1,171 @@
+{
+  "Black": {
+    "displayName": "Black",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Blue": {
+    "displayName": "Blue",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Red": {
+    "displayName": "Red",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "White": {
+    "displayName": "White",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Grey": {
+    "displayName": "Grey",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Green": {
+    "displayName": "Green",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Nike": {
+    "displayName": "Nike",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Adidas": {
+    "displayName": "Adidas",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Coogi": {
+    "displayName": "Coogi",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Puma": {
+    "displayName": "Puma",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "Tommy Hilfiger": {
+    "displayName": "Tommy Hilfiger",
+    "gid": null,
+    "status": "UNMAPPED"
+  },
+  "MEN": {
+    "displayName": "Men",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "WOMEN": {
+    "displayName": "Women",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "UNISEX": {
+    "displayName": "Unisex",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Men": {
+    "displayName": "Men",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Male": {
+    "displayName": "Men",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Women": {
+    "displayName": "Women",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Female": {
+    "displayName": "Women",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Ladies": {
+    "displayName": "Women",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Unisex": {
+    "displayName": "Unisex",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Other": {
+    "displayName": "Other",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Do not hardcode taxonomy values; resolve from Shopify for the selected category."
+  },
+  "Jackets": {
+    "displayName": "Jackets",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Hoodies": {
+    "displayName": "Hoodies",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Sweatshirts": {
+    "displayName": "Sweatshirts",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Tops": {
+    "displayName": "Tops",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Shirts": {
+    "displayName": "Shirts",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Shorts": {
+    "displayName": "Shorts",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Dresses": {
+    "displayName": "Dresses",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Accessories": {
+    "displayName": "Accessories",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  },
+  "Pants": {
+    "displayName": "Pants",
+    "gid": null,
+    "status": "UNMAPPED",
+    "note": "Resolved and verified against the connected Shopify store at publish time."
+  }
+}

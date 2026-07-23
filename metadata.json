@@ -1,0 +1,6 @@
+{
+  "name": "Listify AI Image-to-Listing Studio",
+  "description": "An automated studio for Listify AI to convert raw garment photos into Shopify draft listings using deterministic canvas masking, background removal, soft shadows, and Gemini vision models.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

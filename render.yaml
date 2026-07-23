@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: listifycraft
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SHOPIFY_DEFAULT_VENDOR
+        value: ListifyCraft
+      - key: APP_DOMAIN
+        value: https://listifycraft.onrender.com
+      - key: INITIAL_ADMIN_PASSWORD
+        value: AdminOwner2026!
+      - key: DATABASE_PATH
+        value: /var/data/listing-studio.sqlite
+    disk:
+      name: listifycraft-data
+      mountPath: /var/data
+      sizeGB: 1
