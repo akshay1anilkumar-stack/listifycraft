@@ -48,15 +48,15 @@ export default function AdminConfig({
   
   const [saveStatus, setSaveStatus] = useState<'IDLE' | 'SAVING' | 'SUCCESS' | 'ERROR'>('IDLE');
 
-  const [localShopName, setLocalShopName] = useState(config.shopName || '');
-  const [localAccessToken, setLocalAccessToken] = useState(config.accessToken || '');
-  const [localDefaultVendor, setLocalDefaultVendor] = useState(config.defaultVendor || '');
+  const [localShopName, setLocalShopName] = useState(config?.shopName || '');
+  const [localAccessToken, setLocalAccessToken] = useState(config?.accessToken || '');
+  const [localDefaultVendor, setLocalDefaultVendor] = useState(config?.defaultVendor || '');
 
   useEffect(() => {
-    setLocalShopName(config.shopName || '');
-    setLocalAccessToken(config.accessToken || '');
-    setLocalDefaultVendor(config.defaultVendor || '');
-  }, [config.shopName, config.accessToken, config.defaultVendor]);
+    setLocalShopName(config?.shopName || '');
+    setLocalAccessToken(config?.accessToken || '');
+    setLocalDefaultVendor(config?.defaultVendor || '');
+  }, [config?.shopName, config?.accessToken, config?.defaultVendor]);
 
   const fetchAdvancedConfig = async () => {
     try {
