@@ -2228,7 +2228,25 @@ async function autoFetchAndSyncShopifyStore(shopName: string, accessToken: strin
     const products = data?.products?.nodes || [];
 
     const primaryLoc = locations.find((l: any) => l.isPrimary) || locations[0];
-    const defaultVendor = shop?.name || "Listify AI";
+    const defaultVendor = shop?.name || STORE_VENDOR;
+
+    const db = readDB();
+    if (clientId && clientId !== "master-workspace-id") {
+      const clientIdx = db.clients?.findIndex(c => c.id === clientId);
+      if (clientIdx !== undefined && clientIdx !== -1 && db.clients) {
+        db.clients[clientIdx].shopifyConfig = {
+          ...(db.clients[clientIdx].shopifyConfig || {}),
+          defaultVendor: defaultVendor,
+          shopName: shopName,
+          accessToken: accessToken,
+          inventoryLocationId: primaryLoc?.id || db.clients[clientIdx].shopifyConfig?.inventoryLocationId || ""
+        };
+      }
+    } else {
+      db.config.defaultVendor = defaultVendor;
+      if (primaryLoc?.id) db.config.inventoryLocationId = primaryLoc.id;
+    }
+    writeDB(db);
 
     const syncedProducts = products.map((p: any) => {
       const v0 = p.variants?.nodes?.[0] || {};
