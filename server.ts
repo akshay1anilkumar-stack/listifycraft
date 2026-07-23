@@ -314,6 +314,27 @@ function recordApiUsage(purpose: string, model: string, keySlot: number | null, 
       .run(`usage_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`, purpose, model, keySlot, status, durationMs, errorMessage || null, new Date().toISOString());
   } catch (error) { console.warn("Could not record API usage", error); }
 }
+
+function recordAuditLog(action: string, user: any, details: any = {}) {
+  try {
+    const db = readDB();
+    if (!db.auditLogs) db.auditLogs = [];
+    const entry = {
+      id: `audit_${Date.now()}_${crypto.randomUUID().slice(0, 8)}`,
+      timestamp: new Date().toISOString(),
+      action,
+      username: user?.username || "system",
+      role: user?.role || "System",
+      clientId: user?.clientId || "master-workspace-id",
+      payload: details
+    };
+    db.auditLogs.unshift(entry);
+    if (db.auditLogs.length > 1000) db.auditLogs = db.auditLogs.slice(0, 1000);
+    writeDB(db);
+  } catch (err) {
+    console.warn("[Audit Logging Failure]:", err);
+  }
+}
 async function withGeminiKey<T>(purpose: string, model: string, operation: (client: GoogleGenAI, key: string, keySlot: number) => Promise<T>): Promise<T> {
   if (!GEMINI_KEYS.length) throw new Error("No Gemini API keys are configured.");
   const now = Date.now();
@@ -2870,6 +2891,7 @@ app.post("/api/auth/register", (req: any, res) => {
   db.users.push(newUser);
   writeDB(db);
 
+  recordAuditLog("USER_REGISTERED", newUser, { username: newUser.username, role: newUser.role, companyName: finalCompanyName });
   const client = db.clients?.find(c => c.id === assignedClientId);
   res.json({ 
     success: true, 
@@ -2894,6 +2916,7 @@ app.post("/api/auth/login", (req, res) => {
 
   const client = db.clients?.find(c => c.id === user.clientId);
   const safeUser = { username: user.username, fullName: user.fullName, role: user.role, clientId: user.clientId || "" };
+  recordAuditLog("USER_LOGIN", safeUser, { username: user.username, role: user.role });
   res.json({ 
     success: true,
     token: signSession(safeUser), 
