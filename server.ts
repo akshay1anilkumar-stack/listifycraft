@@ -3599,9 +3599,12 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Listify AI Listing Studio Server running on http://localhost:${PORT}`);
-  });
+  if (process.env.BUILDING_FUNCTIONS !== "true" && !process.env.FIREBASE_CONFIG) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Listify AI Listing Studio Server running on http://localhost:${PORT}`);
+    });
+  }
 }
 
 startServer();
+export { app };
