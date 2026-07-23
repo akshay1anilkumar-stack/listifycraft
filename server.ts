@@ -272,12 +272,13 @@ function verifySession(token: string): AuthUser | null {
 }
 
 app.use("/api", (req: any, res, next) => {
-  const publicPaths = new Set(["/auth/login", "/auth/register", "/health"]);
-  if (publicPaths.has(req.path) || (req.path.startsWith("/images/") && req.method === "GET")) return next();
+  const publicPaths = new Set(["/auth/login", "/auth/register", "/health", "/images/store"]);
   const token = String(req.headers.authorization || "").replace(/^Bearer\s+/i, "");
   const user = verifySession(token);
+  if (user) req.authUser = user;
+
+  if (publicPaths.has(req.path) || (req.path.startsWith("/images/") && req.method === "GET")) return next();
   if (!user) return res.status(401).json({ error: "Authentication required" });
-  req.authUser = user;
   next();
 });
 
