@@ -17,8 +17,4 @@ services:
       - key: INITIAL_ADMIN_PASSWORD
         value: AdminOwner2026!
       - key: DATABASE_PATH
-        value: /var/data/listing-studio.sqlite
-    disk:
-      name: listifycraft-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: ./src/data/listing-studio.sqlite
