@@ -181,6 +181,49 @@ function normalizeDB(parsed: any): LocalDB {
       clientId: "master-workspace-id"
     });
   }
+  // Pre-seed Fashion Rerun Vintage tenant client
+  const fashionToken = process.env.FASHION_RERUN_SHOPIFY_TOKEN || process.env.SHOPIFY_ADMIN_ACCESS_TOKEN || "";
+  const fashionDomain = process.env.FASHION_RERUN_SHOPIFY_DOMAIN || "fashion-rerun-vintage.myshopify.com";
+
+  let fashionClient = db.clients.find((c: any) => c.companyName === "Fashion Rerun Vintage" || c.id === "client-fashion-rerun-vintage");
+  if (!fashionClient) {
+    fashionClient = {
+      id: "client-fashion-rerun-vintage",
+      companyName: "Fashion Rerun Vintage",
+      contactPerson: "Fashion Rerun Admin",
+      email: "info@fashion-rerun-vintage.com",
+      phone: "+971500000000",
+      licenseStatus: "Active",
+      subscriptionPeriod: "2026-01-01 to 2027-01-01",
+      creditBalance: 100,
+      shopifyConfig: {
+        shopName: fashionDomain,
+        accessToken: fashionToken,
+        apiVersion: "2026-07",
+        defaultVendor: "Fashion Rerun Vintage"
+      }
+    };
+    db.clients.push(fashionClient);
+  } else {
+    fashionClient.creditBalance = Math.max(fashionClient.creditBalance || 0, 100);
+    fashionClient.shopifyConfig = {
+      ...(fashionClient.shopifyConfig || {}),
+      shopName: fashionDomain,
+      accessToken: fashionToken || fashionClient.shopifyConfig?.accessToken,
+      defaultVendor: "Fashion Rerun Vintage"
+    };
+  }
+
+  if (!db.users.some((u: any) => u.username === "fashionrerun_admin")) {
+    db.users.push({
+      username: "fashionrerun_admin",
+      fullName: "Fashion Rerun Administrator",
+      password: hashPassword("AdminOwner2026!"),
+      role: "Company Admin",
+      clientId: fashionClient.id
+    });
+  }
+
   db.config.apiVersion ||= process.env.SHOPIFY_API_VERSION || "2026-07";
   db.config.inventoryLocationId ??= process.env.SHOPIFY_INVENTORY_LOCATION_ID || "";
   db.config.defaultVendor ||= STORE_VENDOR;
