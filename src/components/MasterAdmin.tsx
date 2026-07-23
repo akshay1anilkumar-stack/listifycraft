@@ -414,10 +414,10 @@ export default function MasterAdmin({ currentUser }: MasterAdminProps) {
     setShowRefillModal(true);
   };
 
-  const filteredClients = clients.filter(c => 
-    c.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    c.contactPerson.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    c.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredClients = (clients || []).filter(c => 
+    (c?.companyName || '').toLowerCase().includes((searchQuery || '').toLowerCase()) ||
+    (c?.contactPerson || '').toLowerCase().includes((searchQuery || '').toLowerCase()) ||
+    (c?.email || '').toLowerCase().includes((searchQuery || '').toLowerCase())
   );
 
   const filteredTransactions = transactions.filter(t => {
