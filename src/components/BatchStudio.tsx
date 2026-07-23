@@ -123,6 +123,44 @@ export default function BatchStudio({
     setActiveImgIndex(0);
   }, [selectedProductId]);
 
+  // Auto-restore batch products state from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedProducts = localStorage.getItem("fr_batch_products");
+      const savedSelectedId = localStorage.getItem("fr_batch_selected_id");
+      if (savedProducts) {
+        const parsed = JSON.parse(savedProducts);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProducts(parsed);
+          if (savedSelectedId && parsed.some((p: any) => p.id === savedSelectedId)) {
+            setSelectedProductId(savedSelectedId);
+          } else {
+            setSelectedProductId(parsed[0].id);
+          }
+        }
+      }
+    } catch { }
+  }, []);
+
+  // Auto-save batch products state to localStorage on state changes
+  useEffect(() => {
+    try {
+      if (products.length > 0) {
+        localStorage.setItem("fr_batch_products", JSON.stringify(products));
+      } else {
+        localStorage.removeItem("fr_batch_products");
+      }
+    } catch { }
+  }, [products]);
+
+  useEffect(() => {
+    try {
+      if (selectedProductId) {
+        localStorage.setItem("fr_batch_selected_id", selectedProductId);
+      }
+    } catch { }
+  }, [selectedProductId]);
+
   const activeImage = activeProduct?.images[activeImgIndex] || activeProduct?.images[0] || null;
 
   // SKU parser function (skua.jpg, skub.jpg -> sku, suffix a/b)
