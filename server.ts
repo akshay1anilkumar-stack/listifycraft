@@ -172,6 +172,15 @@ function normalizeDB(parsed: any): LocalDB {
       masterAdmin.password = hashPassword(defaultPass);
     }
   }
+  if (!db.users.some((u: any) => u.username === "admin") && masterAdmin) {
+    db.users.push({
+      username: "admin",
+      fullName: "Master Administrator",
+      password: masterAdmin.password,
+      role: "Master Admin",
+      clientId: "master-workspace-id"
+    });
+  }
   db.config.apiVersion ||= process.env.SHOPIFY_API_VERSION || "2026-07";
   db.config.inventoryLocationId ??= process.env.SHOPIFY_INVENTORY_LOCATION_ID || "";
   db.config.defaultVendor ||= STORE_VENDOR;
